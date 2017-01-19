@@ -145,19 +145,47 @@ namespace PatchUtil
 
         }
 
-        private void filesList_MouseClick(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Right)
+      public void MarkItem(int index)
+         {
+         if (index != -1)
             {
-                if (filesList.SelectedIndex != -1)
-                {
-                    var fileItem = filesList.Items[filesList.SelectedIndex] as FileListItem;
-                    if (fileItem != null)
-                    {
-                        fileItem.Marked = !fileItem.Marked;
-                    }
-                }
+            var fileItem = filesList.Items[index] as FileListItem;
+            if (fileItem != null)
+               {
+               fileItem.Marked = !fileItem.Marked;
+               filesList.Items[index] = fileItem;
+               }
             }
-        }
-    }
+         }
+
+      private void filesList_MouseDown(object sender, MouseEventArgs e)
+         {
+         if (e.Button == MouseButtons.Right)
+            {
+            List<int> selectedIndices = new List<int>(filesList.SelectedIndices.Count);
+            for (int i = 0; i < filesList.SelectedIndices.Count; i++)
+               {
+               selectedIndices.Add(filesList.SelectedIndices[i]);
+               }
+
+
+            int mouseIndex = filesList.IndexFromPoint(e.Location);
+            if (selectedIndices.Contains(mouseIndex))
+               {
+               selectedIndices.ForEach((int index) =>
+               {
+                  MarkItem(index);
+               });
+
+               selectedIndices.ForEach((int index) =>
+               {
+                  filesList.SetSelected(selectedIndices[index], true);
+               });
+               } else
+               {
+               MarkItem(mouseIndex);
+               }
+            }
+         }
+      }
 }
