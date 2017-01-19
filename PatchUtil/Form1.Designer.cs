@@ -48,6 +48,7 @@
             this.filesList.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.filesList.Size = new System.Drawing.Size(339, 292);
             this.filesList.TabIndex = 0;
+            this.filesList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.filesList_MouseClick);
             this.filesList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.filesList_MouseDoubleClick);
             // 
             // butPatchSelected
